@@ -27,3 +27,8 @@ public/shots/*.png
 public/shots/*.jpg
 public/shots/*.jpeg
 .env*
+
+# Claude Code local settings. Accumulates whatever tool permissions you grant
+# over time and is named .local because it is per-machine — it should never be
+# world-readable in a public repo.
+.claude/settings.local.json
