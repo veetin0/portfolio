@@ -243,7 +243,7 @@ export const projects: Project[] = [
     tagline: 'A training log that generates the program too',
     year: 2026,
     domain: 'mobile',
-    status: 'prototype',
+    status: 'live',
     weight: 1.05,
     summary:
       'A React Native training app: answer three questions about your goal, experience and how many days you can train, and it builds an eight-week program you can actually run. Logging, progression and progress charts all work offline — the app makes no network calls of its own.',
@@ -257,6 +257,9 @@ export const projects: Project[] = [
       'No accounts, no sync, no analytics — the only thing that ever leaves the phone is the store’s own rating sheet',
     ],
     stack: ['React Native', 'Expo', 'JavaScript', 'React'],
+    links: [
+      { label: 'App Store', href: 'https://apps.apple.com/app/id6801518648', kind: 'demo' },
+    ],
     metrics: [
       { label: 'Exercises', value: '180' },
       { label: 'Templates', value: '9' },
