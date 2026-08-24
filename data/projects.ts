@@ -258,7 +258,12 @@ export const projects: Project[] = [
     ],
     stack: ['React Native', 'Expo', 'JavaScript', 'React'],
     links: [
-      { label: 'App Store', href: 'https://apps.apple.com/app/id6801518648', kind: 'demo' },
+      { label: 'App Store', href: 'https://apps.apple.com/app/id6801518648', kind: 'appstore' },
+      {
+        label: 'Google Play',
+        href: 'https://play.google.com/store/apps/details?id=com.veetinurmikoski.gymplus',
+        kind: 'playstore',
+      },
     ],
     metrics: [
       { label: 'Exercises', value: '180' },

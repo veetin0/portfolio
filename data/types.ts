@@ -6,8 +6,12 @@ export interface ProjectLink {
   label: string
   href: string
   /** `upstream` marks a third-party project this one builds on, not your own
-   *  repo. It renders differently so the distinction is never ambiguous. */
-  kind: 'github' | 'demo' | 'writeup' | 'upstream'
+   *  repo. It renders differently so the distinction is never ambiguous.
+   *
+   *  `appstore` and `playstore` are calls to action rather than references —
+   *  the panel pulls them out of the list and renders them as icon buttons,
+   *  because "go install this" is a different act from "go read the source". */
+  kind: 'github' | 'demo' | 'writeup' | 'upstream' | 'appstore' | 'playstore'
 }
 
 export interface ProjectDownload {

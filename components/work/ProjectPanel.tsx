@@ -20,6 +20,13 @@ export function ProjectPanel() {
   const project = openProject ? projectById.get(openProject) : undefined
 
   const index = project ? projects.findIndex((p) => p.id === project.id) : -1
+
+  // A store listing is a call to action; a repo link is a reference. Splitting
+  // them means "install this" never has to compete with "read the source" for
+  // the same row of a list.
+  const links = project?.links ?? []
+  const storeLinks = links.filter((l) => l.kind === 'appstore' || l.kind === 'playstore')
+  const otherLinks = links.filter((l) => l.kind !== 'appstore' && l.kind !== 'playstore')
   const step = (delta: number) => {
     if (index < 0) return
     const next = projects[(index + delta + projects.length) % projects.length]
@@ -218,10 +225,36 @@ export function ProjectPanel() {
                 </Section>
               )}
 
-              {project.links && project.links.length > 0 && (
-                <Section title={project.links.some((l) => l.kind === 'upstream') ? 'Related' : 'Links'}>
+              {storeLinks.length > 0 && (
+                <Section title="Get it">
+                  <div className="flex flex-wrap gap-2">
+                    {storeLinks.map((l) => (
+                      <a
+                        key={l.href}
+                        data-interactive
+                        href={l.href}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="group flex flex-1 basis-[9rem] items-center gap-2.5 rounded-lg border border-line bg-raised px-3.5 py-3 text-[13px] text-muted transition-colors hover:border-signal/40 hover:text-signal"
+                      >
+                        {l.kind === 'appstore' ? <AppleIcon /> : <PlayIcon />}
+                        <span className="truncate">{l.label}</span>
+                        <span
+                          aria-hidden
+                          className="ml-auto shrink-0 transition-transform group-hover:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                </Section>
+              )}
+
+              {otherLinks.length > 0 && (
+                <Section title={otherLinks.some((l) => l.kind === 'upstream') ? 'Related' : 'Links'}>
                   <div className="flex flex-col gap-px overflow-hidden rounded-lg border border-line bg-line">
-                    {project.links.map((l) => (
+                    {otherLinks.map((l) => (
                       <a
                         key={l.href + l.label}
                         data-interactive
@@ -309,6 +342,42 @@ function DownloadIcon() {
         strokeLinecap="round"
         strokeLinejoin="round"
       />
+    </svg>
+  )
+}
+
+/* Store marks, drawn as monochrome glyphs so they sit in the panel's own
+   palette rather than importing two brands' colour schemes into a dark UI.
+   Both are simplified for a 15px box — recognisable at size, not replicas. */
+
+function AppleIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+      className="shrink-0 text-muted transition-colors group-hover:text-signal"
+    >
+      <path d="M16.4 12.7c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.7 2.5 3 2.4 1.2 0 1.6-.8 3.1-.8 1.4 0 1.9.8 3.1.7 1.3 0 2.1-1.2 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.8ZM14 5.6c.7-.8 1.1-2 1-3.1-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z" />
+    </svg>
+  )
+}
+
+function PlayIcon() {
+  return (
+    <svg
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+      className="shrink-0 text-muted transition-colors group-hover:text-signal"
+    >
+      <path d="M3.6 1.8a1.3 1.3 0 0 0-.5 1.1v18.2c0 .5.2.9.5 1.1l.1.1L13.8 12v-.2L3.7 1.8h-.1Z" />
+      <path d="M17.2 15.4 14 12.2v-.3l3.2-3.2.1.1 3.8 2.2c1.1.6 1.1 1.6 0 2.3l-3.8 2.1h-.1Z" />
+      <path d="m17.3 15.3-3.3-3.3-10.4 10.4c.4.4 1 .4 1.6.1l12.1-6.9M17.3 8.7 5.2 1.8c-.6-.4-1.2-.3-1.6.1L14 12.3l3.3-3.6Z" />
     </svg>
   )
 }
