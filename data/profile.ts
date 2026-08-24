@@ -81,6 +81,11 @@ export const profile = {
       at: '2026',
       text: 'IT support intern at the university — first role in the field, and still in it. Most of the tools here were built around it.',
     },
+    {
+      at: '2026',
+      text: 'Shipped Gym+ to the App Store and Google Play — my first app, built solo. App review sent it back before it went live, and the first round of real feedback found things no simulator had.',
+      highlight: true,
+    },
     { at: 'now', text: 'Looking for a team that cares about the details.' },
   ] as { at: string; text: string; highlight?: boolean }[],
 } as const
