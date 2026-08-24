@@ -39,9 +39,13 @@ const nextConfig = {
    *                                        link out to
    */
   async headers() {
+    // `next dev` compiles chunks through eval() for source maps, so a policy
+    // without 'unsafe-eval' leaves the dev server rendering a blank page. This
+    // only loosens the policy locally — the deployed headers are unchanged.
+    const dev = process.env.NODE_ENV !== 'production'
     const csp = [
       "default-src 'self'",
-      "script-src 'self' 'unsafe-inline'",
+      `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ''}`,
       "style-src 'self' 'unsafe-inline'",
       "img-src 'self' data: blob:",
       "font-src 'self'",
