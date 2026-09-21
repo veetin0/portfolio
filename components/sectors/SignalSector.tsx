@@ -8,6 +8,31 @@ import { LocalClock } from '@/components/ui/LocalClock'
 import { Portrait } from '@/components/ui/Portrait'
 
 export function SignalSector({ stacked = false }: { stacked?: boolean }) {
+  /* The status cells. On the canvas they sit in the header beside the role line,
+     which is otherwise ~300px of dead space next to a 188px-tall portrait — and
+     "local time / open to work / based in" belongs with the identity block
+     anyway. Stacked, there is no spare width, so they go back to a row of their
+     own below the log. */
+  const cells = (
+    <div
+      className={
+        stacked
+          ? 'mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3'
+          : 'grid w-[280px] shrink-0 grid-cols-1 gap-px self-end overflow-hidden rounded-xl border border-line bg-line'
+      }
+    >
+      <Cell label="Local time">
+        <LocalClock timeZone={profile.timezone} />
+      </Cell>
+      <Cell label="Status">
+        <span className="text-signal">open to work</span>
+      </Cell>
+      <Cell label="Based in" className={stacked ? 'col-span-2 sm:col-span-1' : undefined}>
+        {profile.location}
+      </Cell>
+    </div>
+  )
+
   return (
     // Emit one width or the other, never both: Tailwind resolves conflicting
     // utilities by CSS source order, not by the order you list them, so
@@ -17,11 +42,19 @@ export function SignalSector({ stacked = false }: { stacked?: boolean }) {
     // centred on its world point, that padding lifts the real content by half
     // of it, so the last line clears the rail. Only this sector is tall enough
     // to need it.
+    //
+    // HEIGHT BUDGET. Centring means the content only clears the rail while it
+    // stays under roughly 840px tall at a 900px viewport — past that it grows
+    // off both ends at once and no amount of padding helps. It has overflowed
+    // three times. Measure after adding a log entry:
+    //
+    //   $0.getBoundingClientRect().height   // on this div: keep it under ~900
     <div className={stacked ? 'w-full' : 'w-[820px] pb-14'}>
       <SectorMark ord="03" label="Signal" />
 
-      {/* Identity header: the face, then the log. Reads as a personnel record,
-          which is the one place on a system-shaped site a photo belongs. */}
+      {/* Identity header: the face, the log's heading, and the live status
+          readout. Reads as a personnel record, which is the one place on a
+          system-shaped site a photo belongs. */}
       <div className={cn('flex items-end gap-6', stacked && 'gap-5')}>
         {profile.portrait && (
           <Portrait
@@ -50,12 +83,14 @@ export function SignalSector({ stacked = false }: { stacked?: boolean }) {
             <span className="text-signal">open to work</span>.
           </p>
         </div>
+
+        {!stacked && cells}
       </div>
 
       {/* Boot log. Each entry is a line in the system's history. */}
       <ol className="mt-8 space-y-0">
         {profile.log.map((entry, i) => (
-          <li key={i} className="group relative flex gap-5 pb-3 last:pb-0">
+          <li key={i} className="group relative flex gap-5 pb-2.5 last:pb-0">
             {/* Runs through the dots: 56px date column + 20px gap + half a
                 6px dot. */}
             <span
@@ -96,29 +131,30 @@ export function SignalSector({ stacked = false }: { stacked?: boolean }) {
         ))}
       </ol>
 
-      <div className="mt-8 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-3">
-        <Cell label="Local time">
-          <LocalClock timeZone={profile.timezone} />
-        </Cell>
-        <Cell label="Status">
-          <span className="text-signal">open to work</span>
-        </Cell>
-        <Cell label="Based in" className="col-span-2 sm:col-span-1">
-          {profile.location}
-        </Cell>
+      {stacked && cells}
+
+      {/* Contacts and the CV sit side by side on the canvas: the CV is 68px of
+          content that was costing a full row of height, and a recruiter wants
+          it next to the email anyway. */}
+      <div
+        className={
+          stacked
+            ? 'mt-5 flex flex-col gap-4'
+            : 'mt-7 grid grid-cols-[1fr_300px] items-start gap-5'
+        }
+      >
+        <div className="flex flex-col gap-px overflow-hidden rounded-xl border border-line bg-line">
+          <Contact label="Email" value={profile.links.email} href={`mailto:${profile.links.email}`} />
+          {/* Displayed value is derived from the href, so the two can never
+              drift apart the way a hardcoded handle would. */}
+          <Contact label="GitHub" value={displayUrl(profile.links.github)} href={profile.links.github} external />
+          <Contact label="LinkedIn" value={displayUrl(profile.links.linkedin)} href={profile.links.linkedin} external />
+        </div>
+
+        {profile.cv && <CvRow cv={profile.cv} />}
       </div>
 
-      <div className="mt-5 flex flex-col gap-px overflow-hidden rounded-xl border border-line bg-line">
-        <Contact label="Email" value={profile.links.email} href={`mailto:${profile.links.email}`} />
-        {/* Displayed value is derived from the href, so the two can never
-            drift apart the way a hardcoded handle would. */}
-        <Contact label="GitHub" value={displayUrl(profile.links.github)} href={profile.links.github} external />
-        <Contact label="LinkedIn" value={displayUrl(profile.links.linkedin)} href={profile.links.linkedin} external />
-      </div>
-
-      {profile.cv && <CvRow cv={profile.cv} />}
-
-      <p className="mt-6 font-mono text-2xs text-dim">
+      <p className="mt-5 font-mono text-2xs text-dim">
         Built with Next.js, TypeScript, and Tailwind. No template.
       </p>
     </div>
@@ -152,7 +188,7 @@ function CvRow({ cv }: { cv: NonNullable<typeof profile.cv> }) {
       data-interactive
       href={cv.href}
       download
-      className="group mt-4 flex items-center justify-between gap-3 rounded-xl border border-signal/25 bg-signal/[0.06] px-4 py-3.5 transition-colors duration-300 hover:border-signal/45 hover:bg-signal/[0.11]"
+      className="group flex items-center justify-between gap-3 rounded-xl border border-signal/25 bg-signal/[0.06] px-4 py-3.5 transition-colors duration-300 hover:border-signal/45 hover:bg-signal/[0.11]"
     >
       <span className="flex flex-col">
         <span className="text-[13px] text-signal">{cv.label}</span>
