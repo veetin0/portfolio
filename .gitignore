@@ -32,3 +32,14 @@ public/shots/*.jpeg
 # over time and is named .local because it is per-machine — it should never be
 # world-readable in a public repo.
 .claude/settings.local.json
+
+# iCloud sync duplicates. This repo lives under a synced Desktop folder, and a
+# sync conflict leaves a "name 2.ext" copy beside the real file. They never
+# reach a commit from here, but they do break builds: two copies of
+# .next/types/cache-life.d.ts both declare module 'next/cache', and the build
+# fails with "Duplicate identifier". Ignoring them keeps `git add -A` clean if
+# one ever lands outside a build directory.
+#
+# Caveat: this also ignores a genuine file named "Chapter 2.md". Nothing here
+# is named that way; `git add -f` if that ever changes.
+* [0-9].*
