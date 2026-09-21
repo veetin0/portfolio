@@ -55,7 +55,11 @@ const nextConfig = {
       "base-uri 'self'",
       "form-action 'self'",
       "object-src 'none'",
-      'upgrade-insecure-requests',
+      // Only in production. Over plain-HTTP localhost this tells the browser to
+      // fetch every asset over https instead, and the dev server has no TLS.
+      // Chromium exempts localhost from the upgrade; Safari does not, so with
+      // this on, `next dev` serves Safari an unstyled page with no JS.
+      ...(dev ? [] : ['upgrade-insecure-requests']),
     ].join('; ')
 
     return [
