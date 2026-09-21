@@ -66,11 +66,7 @@ export const profile = {
     },
     {
       at: '2025',
-      text: 'Second year. Made ML and AI the main line: agents are going to decide a great deal, and I would rather build them than watch.',
-    },
-    {
-      at: '2025',
-      text: 'Stopped waiting for coursework and started shipping my own projects — increasingly with an LLM in the loop, reviewing and verifying its output rather than trusting it.',
+      text: 'Second year. Made ML and AI the main line: agents are going to decide a great deal, and I would rather build them than watch. Stopped waiting for coursework around the same time and started shipping my own projects — increasingly with an LLM in the loop, reviewing and verifying its output rather than trusting it.',
     },
     {
       at: '2026',
@@ -79,14 +75,21 @@ export const profile = {
     },
     {
       at: '2026',
-      text: 'IT support intern at the university — first role in the field, and still in it. Most of the tools here were built around it.',
+      text: 'IT support trainee at the university, now finished — my first role in the field. Most of the tools here were built around it.',
     },
     {
       at: '2026',
       text: 'Shipped Gym+ to the App Store and Google Play — my first app, built solo. App review sent it back before it went live, and the first round of real feedback found things no simulator had.',
       highlight: true,
     },
-    { at: 'now', text: 'Looking for a team that cares about the details.' },
+    {
+      at: '2026',
+      text: 'Built and shipped a merch store for a working DJ — the first time the deadline, the brand and the stock counts were someone else’s.',
+    },
+    {
+      at: 'now',
+      text: 'Third year, writing my bachelor’s thesis, and looking for a team that cares about the details.',
+    },
   ] as { at: string; text: string; highlight?: boolean }[],
 } as const
 

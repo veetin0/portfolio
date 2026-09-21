@@ -239,7 +239,7 @@ export const projects: Project[] = [
 
   {
     id: 'gymplus',
-    name: 'GymPlus',
+    name: 'Gym+',
     tagline: 'A training log that generates the program too',
     year: 2026,
     domain: 'mobile',
@@ -249,8 +249,10 @@ export const projects: Project[] = [
       'A React Native training app: answer three questions about your goal, experience and how many days you can train, and it builds an eight-week program you can actually run. Logging, progression and progress charts all work offline — the app makes no network calls of its own.',
     features: [
       'Program generator builds an 8-week block from goal × days-per-week, with sets, reps and rest tuned per goal (5×5 at 3min for strength, 3×15 at 60s for fat loss)',
-      'Local exercise database of 180 movements tagged by muscle, equipment, difficulty, secondary muscles and cues',
+      'Local exercise database of 202 movements tagged by muscle, equipment, difficulty, secondary muscles and cues',
       'Live workout screen with per-set logging, rest timers and completion state',
+      'Save a finished session as a routine and start it again from the home screen in one tap',
+      'Every weight and rep field shows what you lifted last time as a placeholder — nothing is recorded unless you put it there',
       'Estimated 1RM via the Epley formula, session volume, and weekly volume broken down by muscle group',
       'Progression suggestions — hit the target reps and it proposes the next load',
       'Everything persists to AsyncStorage, with JSON backup export and re-import so the data is yours',
@@ -266,7 +268,7 @@ export const projects: Project[] = [
       },
     ],
     metrics: [
-      { label: 'Exercises', value: '180' },
+      { label: 'Exercises', value: '202' },
       { label: 'Templates', value: '9' },
       { label: 'Accounts', value: 'none' },
     ],
@@ -288,6 +290,40 @@ export const projects: Project[] = [
       'The thing I actually learned networking on',
     ],
     stack: ['Raspberry Pi', 'Linux', 'Networking', 'DNS', 'Docker', 'Shell', 'Automation'],
+  },
+
+  {
+    id: 'seben',
+    name: 'SEBEN Merch',
+    tagline: 'A bilingual merch store, shipped for a client',
+    year: 2026,
+    domain: 'web',
+    status: 'live',
+    weight: 1.3,
+    attribution:
+      'Built for DJ SEBEN. The brand, art direction, photography and copy are the client’s — I built the store around them.',
+    summary:
+      'An online merch store for a Finnish DJ, in Finnish and English, selling real stock through Stripe. The first thing I have built for a paying client rather than for myself, which changes what finished means: someone else’s launch date, someone else’s brand sheet, and stock counts that have to be right.',
+    features: [
+      'Stock is authoritative, not decorative — the counted shelf total lives in the catalogue file, the Stripe webhook increments sold counts in Redis on top of it, and a size that runs out is struck through and genuinely disabled',
+      'Two deliberate read paths: a ~60s tagged cache for pages, which the webhook busts on every sale, and an uncached read straight to Redis for the checkout guard — the money path never works from a cached figure',
+      'A saved cart is re-clamped against live stock when it loads, so a cart left open overnight cannot oversell',
+      'Bilingual throughout, Finnish first — every string routed through dictionaries, with the locale in the URL',
+      'The hero video ships as two cuts and picks one by aspect ratio rather than width, so a narrow desktop window gets the landscape edit instead of a hard centre-crop — and nobody downloads both',
+      'Degrades honestly: with no Redis configured the catalogue numbers show as-is, and a missing photo renders a labelled placeholder naming the exact path it wants',
+    ],
+    stack: ['Next.js', 'TypeScript', 'React', 'Tailwind', 'Stripe', 'Redis', 'GSAP'],
+    metrics: [
+      { label: 'Languages', value: 'FI / EN' },
+      { label: 'Client', value: 'DJ SEBEN' },
+      { label: 'Status', value: 'live' },
+    ],
+    links: [
+      // www, not the apex: the client's Vercel project redirects apex -> www,
+      // and linking the pre-redirect host costs a hop.
+      { label: 'whynotseben.com', href: 'https://www.whynotseben.com', kind: 'demo' },
+    ],
+    // No repo link: seben-merch is private, and it holds the client's assets.
   },
 ]
 
