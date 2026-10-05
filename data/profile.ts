@@ -45,7 +45,7 @@ export const profile = {
   cv: {
     href: '/cv/veeti-nurmikoski-cv.pdf',
     label: 'Curriculum vitae',
-    updated: 'July 2026',
+    updated: 'September 2026',
   } as { href: string; label: string; updated?: string } | undefined,
 
   links: {
