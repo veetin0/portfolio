@@ -76,6 +76,25 @@ const nextConfig = {
           },
         ],
       },
+
+      /**
+       * The pitch video is 5.5 MB and never changes once published, but Vercel
+       * serves files from public/ as `max-age=0, must-revalidate`. That 304s
+       * rather than re-sending the body, so it is not a bandwidth problem — it
+       * is a round trip on every single load before playback can start.
+       *
+       * `immutable` is the part that matters: it tells the browser not to
+       * revalidate at all, so a repeat visit plays straight from disk.
+       *
+       * The cost is that a year-long immutable cache cannot be busted. To
+       * REPLACE a video, publish it under a new filename and point
+       * `data/projects.ts` at that — do not overwrite the path in place, or
+       * everyone who already watched it keeps the old cut.
+       */
+      {
+        source: '/video/:path*',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
     ]
   },
 }
