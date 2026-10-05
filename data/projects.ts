@@ -325,6 +325,42 @@ export const projects: Project[] = [
     ],
     // No repo link: seben-merch is private, and it holds the client's assets.
   },
+
+  {
+    id: 'irma',
+    name: 'Irma',
+    tagline: 'Weak signals into scenarios, with the reasoning left visible',
+    year: 2026,
+    domain: 'ai',
+    status: 'prototype',
+    weight: 1.25,
+    attribution:
+      'Built at Junction Vaasa 2026 for the ABB Distribution Solutions challenge, by a team with roughly equal contribution across the group — the commit history shows one name because we pushed from one machine.',
+    summary:
+      'A weekend prototype for ABB’s distribution business: read open-source signals about data-centre demand and component supply, weigh them with a formula you can open up and check, and keep four futures running side by side instead of collapsing them into one forecast. It deliberately refuses to tell you what to buy — it shows the evidence and the planner decides.',
+    features: [
+      'Eight agents — collector, demand, supply, bullwhip, counter-evidence, scenario, interpretation, explainer — over a deterministic scoring engine, so the numbers are reproducible and the language around them is not load-bearing',
+      'Every strong signal gets counter-evidence actively attached to it, because a monitor that only confirms what it already found is a machine for building confidence in the wrong answer',
+      'Four scenarios held in parallel with probabilities that move as evidence lands, rather than one forecast that quietly hides its own uncertainty',
+      'Every value in the data is labelled SOURCE, DEMODATA or ASSUMPTION — a demo that cannot be told apart from real data is worse than no demo',
+      'A guardrail agent blocks purchase recommendations, quantities and order points by design: the system informs the decision, it does not make it',
+      'Runs with no API key at all in replay mode, and the deployable build never uses one — a public link cannot run up paid calls',
+    ],
+    stack: ['Python', 'FastAPI', 'Claude', 'LLM Agents', 'JavaScript'],
+    metrics: [
+      { label: 'Agents', value: '8' },
+      { label: 'Signals', value: '32' },
+      { label: 'Built in', value: '1 weekend' },
+    ],
+    video: {
+      src: '/video/irma-pitch.mp4',
+      poster: '/video/irma-poster.webp',
+      caption: 'Pitch video · 3 min · sound on',
+    },
+    links: [
+      { label: 'veetin0/irma-junction-vaasa-2026', href: 'https://github.com/veetin0/irma-junction-vaasa-2026', kind: 'github' },
+    ],
+  },
 ]
 
 /** Lookup used by the terminal, palette, and deep links. */
