@@ -38,6 +38,19 @@ export interface ProjectMedia {
   alt: string
 }
 
+export interface ProjectVideo {
+  /** Path under /public, e.g. "/video/irma-pitch.mp4". Self-hosted: the CSP has
+   *  no media-src, so it falls back to default-src 'self' and a third-party
+   *  embed would be blocked without changing the header. */
+  src: string
+  /** Still shown before play. Without one the browser renders a black box and
+   *  downloads the first frames just to fill it. */
+  poster?: string
+  /** Rendered under the player — say what it is and how long it runs, so
+   *  nobody starts a three-minute video expecting a GIF. */
+  caption?: string
+}
+
 export interface Project {
   /** Stable, URL-safe. Used by the terminal (`open lyvo`) and deep links. */
   id: string
@@ -60,6 +73,8 @@ export interface Project {
   /** Files a visitor can pull down. Put them in /public/downloads. */
   downloads?: ProjectDownload[]
   media?: ProjectMedia[]
+  /** A single embedded video — a demo or pitch. Never autoplays. */
+  video?: ProjectVideo
 
   /** Optional metrics rendered as a small readout in the panel. */
   metrics?: { label: string; value: string }[]

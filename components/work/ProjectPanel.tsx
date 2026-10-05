@@ -150,6 +150,27 @@ export function ProjectPanel() {
                 </div>
               )}
 
+              {/* The pitch sits above the feature list: if a project has a video,
+                  watching it beats reading bullets. Never autoplays, and
+                  preload="metadata" fetches only the header — opening a panel
+                  must not pull megabytes nobody asked for. */}
+              {project.video && (
+                <Section title="Pitch">
+                  <video
+                    data-interactive
+                    src={project.video.src}
+                    poster={project.video.poster}
+                    controls
+                    preload="metadata"
+                    playsInline
+                    className="w-full rounded-lg border border-line bg-black"
+                  />
+                  {project.video.caption && (
+                    <p className="mt-2 font-mono text-2xs text-dim">{project.video.caption}</p>
+                  )}
+                </Section>
+              )}
+
               <Section title="What it does">
                 <ul className="space-y-2.5">
                   {project.features.map((f) => (
