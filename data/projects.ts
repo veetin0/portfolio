@@ -361,6 +361,34 @@ export const projects: Project[] = [
       { label: 'veetin0/irma-junction-vaasa-2026', href: 'https://github.com/veetin0/irma-junction-vaasa-2026', kind: 'github' },
     ],
   },
+  {
+    id: 'harness',
+    name: 'Harness + HackForge',
+    tagline: 'A Mac app that shows Claude Code working, and a plugin that drives it to a finished hackathon entry',
+    year: 2026,
+    domain: 'ai',
+    status: 'active',
+    weight: 1.3,
+    summary:
+      'Two halves of one tool. Harness (ClaudeCodeUI) is an Electron app that runs Claude Code and shows what it is doing as it happens: streamed replies, every tool call, subagents, the task list, context usage and cost. HackForge is the Claude Code plugin bundled inside it, which takes a hackathon challenge from raw brief to a rule-checked submission and keeps improving it until objective checks say it is done.',
+    features: [
+      'Live agent cards: the file being written, the running command and its timer, progress bars with an ETA, and metric charts for things like loss and accuracy',
+      'Team run for hackathons: teammates join with a single command, and Harness hands each task to whichever teammate’s Claude has the most plan usage left, moving failed work to someone else',
+      'Code moves between laptops as git bundles encrypted with the team’s key, through a team server you can deploy for free or host on your own network',
+      'HackForge ships 19 commands and 12 specialised agents covering kickoff, build, verify, pitch and retro, with locked checks that cannot be weakened and read-only judges that score the result',
+      'Private files for data the rules forbid sending to an AI: enforced by permission rules plus a hook, kept out of git, and only ever touched by scripts that print totals',
+      'Built-in Blender, browser and design tooling, so a run can produce 3D models, UI checks and pitch videos as well as code',
+    ],
+    stack: ['Electron', 'TypeScript', 'React', 'Node.js', 'Claude', 'LLM Agents'],
+    metrics: [
+      { label: 'Commands', value: '19' },
+      { label: 'Agents', value: '12' },
+      { label: 'Platform', value: 'macOS' },
+    ],
+    links: [
+      { label: 'veetin0/ClaudeCodeUI', href: 'https://github.com/veetin0/ClaudeCodeUI', kind: 'github' },
+    ],
+  },
 ]
 
 /** Lookup used by the terminal, palette, and deep links. */
