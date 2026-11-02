@@ -6,6 +6,7 @@ import { useUI } from '@/lib/store'
 import { cn } from '@/lib/utils'
 import { Kbd } from '@/components/ui/primitives'
 import { ScrambleText, useRotating } from '@/components/ui/ScrambleText'
+import { SignalModule } from '@/components/ui/SignalModule'
 
 export function IndexSector({ stacked = false }: { stacked?: boolean }) {
   const booted = useUI((s) => s.booted)
@@ -22,7 +23,16 @@ export function IndexSector({ stacked = false }: { stacked?: boolean }) {
   const delay = (ms: number) => ({ transitionDelay: booted ? `${ms}ms` : '0ms' })
 
   return (
-    <div className={stacked ? 'w-full' : 'w-[min(680px,86vw)]'}>
+    <div className={cn('relative', stacked ? 'w-full' : 'w-[min(680px,86vw)]')}>
+      {/* On the canvas the module floats beside the text; stacked, it leads
+          the page. Decorative either way, so it never takes pointer events. */}
+      <SignalModule
+        className={
+          stacked
+            ? 'mb-2 -ml-3 h-[230px] w-[min(100%,320px)]'
+            : 'absolute left-[56%] top-1/2 -z-10 h-[520px] w-[520px] -translate-y-1/2'
+        }
+      />
       <div className={reveal} style={delay(80)}>
         <div className="mb-8 flex items-center gap-3">
           <span className="relative flex h-1.5 w-1.5">
